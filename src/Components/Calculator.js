@@ -125,13 +125,25 @@ export default function Calculator(props){
         // Adding the ability to change a number to negative or not
         else if (button.id === "+/-"){
             let realNumber = currNumber.indexOf(".") !== -1 ? (parseFloat(currNumber) * -1).toString() : (parseInt(currNumber) * -1).toString()
-            setCurrNumber(currNumber => realNumber.toString());
+            if (realNumber.length <= 9){
+                setCurrNumber(currNumber => realNumber);
+            } else if (realNumber.length > 9){
+                let newNumber = parseFloat(realNumber).toExponential(2);
+                setCurrNumber(currNumber => newNumber);
+            }
+            // setCurrNumber(currNumber => realNumber.toString());
         }
 
         // Changing the number to its percentage
         else if (button.id === "%" && currNumber !== "0"){
             let percentage = (parseFloat(currNumber) / 100).toFixed(2);
-            setCurrNumber(currNumber => percentage.toString());
+            if (percentage.length <= 9){
+                setCurrNumber(currNumber => percentage.toString());
+            } else if (percentage.length > 9){
+                let newPercentage = parseFloat(percentage).toExponential(2);
+                setCurrNumber(currNumber => newPercentage);
+            }
+            
         }
         
     };
